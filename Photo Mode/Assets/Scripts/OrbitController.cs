@@ -1,15 +1,19 @@
 using UnityEngine;
 
-public class OrbitController : TargettedController
+public static class OrbitController
 {
-    public override void Initialize(){ }
+    public static void ResetCamera(Transform cam, Transform target)
+    {
+        cam.position = target.position + target.forward * cam.localScale.z * 10;
+        cam.LookAt(target.position, Vector3.up);
+    }
 
-    public override void UpdateBehavior(Transform cam)
+    public static void UpdateBehavior(Transform cam, Transform target)
     {
         if (!Input.GetMouseButton(1))
             return;
-        float mouseY = -Input.GetAxis("Mouse X");
         float mouseX = Input.GetAxis("Mouse Y");
+        float mouseY = -Input.GetAxis("Mouse X");
         Vector3 rotateValue = new Vector3(mouseX, mouseY, 0);
 
         cam.eulerAngles = cam.eulerAngles - rotateValue;

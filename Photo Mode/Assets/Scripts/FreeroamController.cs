@@ -1,10 +1,14 @@
 using UnityEngine;
 
-public class FreeroamController : TargettedController
+public static class FreeroamController
 {
-    public override void Initialize() { }
+    public static void ResetCamera(Transform cam, Transform target)
+    {
+        cam.position = target.position + target.forward * cam.localScale.z * 10;
+        cam.LookAt(target.position, Vector3.up);
+    }
 
-    public override void UpdateBehavior(Transform cam)
+    public static void UpdateBehavior(Transform cam, Transform target)
     {
         if (!Input.GetMouseButton(1))
             return;
@@ -18,6 +22,6 @@ public class FreeroamController : TargettedController
         float moveF = Input.GetAxis("Vertical");
         float moveU = (Input.GetKey(KeyCode.Q) ? 0 : 1) + (Input.GetKey(KeyCode.E) ? 0 : -1);
 
-        cam.position += moveR * cam.right + moveF * cam.forward + moveU * cam.up;
+        cam.position += (moveR * cam.right + moveF * cam.forward + moveU * cam.up) * cam.localScale.z * 0.01f;
     }
 }
